@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="response_shortcode.pool" class="Ekino\ResponseShortcodeBundle\Service\ShortcodePool" public="false" />
+        <service id="response_shortcode.handler" class="Ekino\ResponseShortcodeBundle\Service\ShortcodeHandler" public="false" >
+            <argument>%format_tag%</argument>
+        </service>
+        <service id="response_shortcode.listener" class="Ekino\ResponseShortcodeBundle\EventListener\ShortcodeListener" public="false" >
+            <argument>%format_tag%</argument>
+            <argument type="service" id="response_shortcode.pool"/>
+            <argument type="service" id="response_shortcode.handler"/>
+            <argument type="service" id="response_shortcode.validation"/>
+            <argument type="service" id="response_shortcode.cache_handler_alias"/>
+            <argument type="service" id="response_shortcode.data_collector"/>
+            <tag name="kernel.event_listener" event="kernel.response"/>
+        </service>
+        <service id="response_shortcode.validation" class="Ekino\ResponseShortcodeBundle\Service\ShortcodeValidation" public="true" />
+        <service id="response_shortcode.cache_handler" class="Ekino\ResponseShortcodeBundle\Service\ShortcodeCacheHandler" public="true" >
+            <argument type="service" id="cache.app"/>
+        </service>
+        <service id="response_shortcode.cache_handler_alias" alias="response_shortcode.cache_handler" public="true" />
+        <service id="response_shortcode.data_collector" class="Ekino\ResponseShortcodeBundle\DataCollector\ShortcodeCollector">
+            <tag name="data_collector" template="@ResponseShortcode/DataCollector/shortcode.html.twig" id="shortcode"/>
+        </service>
+    </services>
+    
+</container>

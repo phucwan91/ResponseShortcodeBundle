@@ -1,0 +1,32 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        {{ include('@ResponseShortcode/Icon/shortcode.svg') }}
+        <span class="sf-toolbar-value">{{ collector.total }}</span>
+    {% endset %}
+
+    {% set text %}
+        {% set classes = { 'valid': 'green', 'invalid': 'red', 'refused': 'yellow' } %}
+        {% for type, data in collector.data %}
+            <div class="sf-toolbar-info-piece">
+                {% if data is not empty %}
+                    <div class="sf-toolbar-status-{{ classes[type] is defined ? classes[type] : '' }}"
+                         style="display: inline-block; vertical-align: top; margin-right: 5px; width: 40px; font-weight: bold; padding: 2px 5px; text-align: center;">
+                        {{ type|capitalize }}
+                    </div>
+                    <ul style="padding-left: 0; display: inline-block;">
+                        {% for tag, total in data %}
+                            <li style="margin-bottom: 4px;">
+                                <span class="sf-toolbar-status">{{ total }}</span>
+                                <span>{{ tag }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endset %}
+
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: false }) }}
+{% endblock %}

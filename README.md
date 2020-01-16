@@ -137,7 +137,12 @@ For convenience, extend from the `Ekino\ResponseShortcodeBundle\Service\Abstract
 - It only renders the shortcodes when a request has `GET` method and its `URI` is not included in the `excluded_uri_pattern` option. If it isn't strict enough for your project, overwrite the `Ekino\ResponseShortcodeBundle\Service\ShortcodeValidation` or implement the `Ekino\ResponseShortcodeBundle\Service\ShortcodeValidationInterface`. Then, register it in the `validator` option. Remember that the first argument in its constructor is always an array `$excludedUris`
 
 - It's using `Symfony cache` to cache shortcode outputs. If you have another cache adapter, overwrite the `Ekino\ResponseShortcodeBundle\Service\ShortcodeCacheHandler` or implement the `Ekino\ResponseShortcodeBundle\Service\ShortcodeCacheHandlerInterface` and also register it in the `cache_handler` option.
-    
+
+#### Bonus    
+
+- The debug toolbar can give you some useful information about shortcodes   
+   
+   ![Web debug](./Resources/doc/image/web_debug.png)
 
 #### Notice:
   - It cannot handle a submitted form logical part.
